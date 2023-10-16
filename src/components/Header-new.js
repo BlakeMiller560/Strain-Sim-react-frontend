@@ -17,6 +17,7 @@ function Header() {
       <li><a href="/contact">Contact US</a></li>
       <li><a href="#Login">Login</a></li>
       <li><a href="/DBConnection">DB Connection</a></li>
+      <li><a href="/StrainSim">StrainSim</a></li>
     </ul>
   </nav>
   </header>
