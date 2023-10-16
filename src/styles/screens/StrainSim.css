@@ -18,7 +18,7 @@
   }
 }
 
-.App-header {
+.StrainSim-header {
   background-color: #282c34;
   min-height: 10vh;
   display: flex;
@@ -30,7 +30,7 @@
 
 }
 
-.App-link {
+.StrainSim-link {
   color: #61dafb;
 }
 

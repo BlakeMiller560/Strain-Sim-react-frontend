@@ -1,7 +1,7 @@
 import left_tool_small from '../assets/images/LeftTool_small.png'
 import right_tool_small from '../assets/images/RightTool_small.png'
 import background_surg from '../assets/images/background_surg.png'
-
+import '../styles/screens/StrainSim.css';
 
 import React, { useEffect, useState } from 'react';
 import * as root from "react-dom";
@@ -63,8 +63,8 @@ function StrainSim() {
 
   return (
     <>
-      <div className="App">
-        <header className="App-header">
+      <div className="StrainSim">
+        <header className="StrainSim-header">
           <p>
               Strain Simulator
           </p>
