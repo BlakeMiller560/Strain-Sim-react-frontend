@@ -1,27 +1,29 @@
 import React, {useRef, useEffect, useState} from "react";
 import Plot from 'react-plotly.js';
 import '../styles/screens/StrainSim.css';
+import {SerialPort} from "serialport";
+import {io} from  "socket.io"
 
 // constants for arduino port
-var SerialPort = require("serialport");
-
+//const SerialPort = require("serialport");
 const parsers = SerialPort.parsers;
 const parser = new parsers.Readline({
   delimiter: '\r\n'
 });
 
-var port = new SerialPort('port',{
-  baudRate: 9600,
-  dataBits: 8,
-  parity: 'none',
-  stopBits: 1,
-  flowControl: false
-  });
+const port = new SerialPort('port', {
+    baudRate: 9600,
+    dataBits: 8,
+    parity: 'none',
+    stopBits: 1,
+    flowControl: false
+});
 
 port.pipe(parser);
 
 // this is the main function of the code, the strain camera
 function StrainCamera() {
+
 
     const [show,setShow] = useState(true);
     // define base variables. By default, they are null
@@ -69,7 +71,7 @@ function StrainCamera() {
     }
 
      // handle socket
-     var socket = io();
+     let socket = io();
         socket.on('data', function(data) {
             console.log(data);
         });
@@ -91,7 +93,7 @@ function StrainCamera() {
 }
 
 
-var io = require('socket.io').listen(app);
+//let io = require('socket.io').listen(app);
 
 io.on('connection',function(socket){
   console.log('node is listening to port');
