@@ -1,7 +1,7 @@
 import React, {useRef, useEffect, useState} from "react";
 import Plot from 'react-plotly.js';
 import styled from "styled-components";
-
+import '../styles/screens/StrainSim.css';
 
 // this is the main function of the code, the strain camera
 function StrainCamera() {
@@ -12,7 +12,7 @@ function StrainCamera() {
     //const port = new SerialPort('/dev/ttyACM0', { baudRate: 9600 });
     //const parser = port.pipe(new Readline({ delimiter: '\n' }));
 
-    let doPlot = useRef(null);
+    const [show,setShow] = useState(true);
     // define base variables. By default, they are null
     const videoRef = useRef(null);
     const photoRef = useRef(null);
@@ -21,7 +21,7 @@ function StrainCamera() {
     // setting the default video that we want. Default is a 1080P webcam display
     const getVideo = () => {
         navigator.mediaDevices
-            .getUserMedia({video: {width: 1920, height: 1080}})
+            .getUserMedia({video: {width: 1280, height: 720}})
 
             .then(stream => {
                 let video = videoRef.current;
@@ -41,16 +41,6 @@ function StrainCamera() {
 
     const handleClick = () => {
     // check for arduino input
-        let is_visible;
-        is_visible = 1;
-
-        if (is_visible === 1){
-            doPlot = 1}
-        else{
-            doPlot = 0
-        }
-
-
     }
     function PlotStrain(){
         return (
@@ -73,27 +63,17 @@ function StrainCamera() {
 
 
 
-    function Square({ value, onSquareClick }) {
-      return (
-        <button className="square" onClick={onSquareClick}>
-          {value}
-        </button>
-      );
-    }
-
     // now for the layout. We want the strain camera, the plot, and a toggle button
     return (
         <div className='strain_camera'>
             <div className='camera' style={{ display: "flex" }}>
-                <video ref={videoRef}> </video>
-                <button onClick={handleClick}>PLOT STRAIN</button>
-            </div>
-            <div className={'result' + (hasPhoto ? 'hasPhoto' : '')}>
-                <canvas ref={photoRef}></canvas>
-                <button>CLOSE</button>
+                <video className='video_output' ref={videoRef}> </video>
+                {show ?<h1><PlotStrain/> </h1>:null}
             </div>
             <div className='plot_strain_div'>
-                PlotStrain
+                <button onClick={()=>setShow(true)}>Start Plot</button>
+                <button onClick={()=>setShow(false)}>Stop Plot</button>
+
             </div>
         </div>
 
