@@ -1,16 +1,27 @@
 import React, {useRef, useEffect, useState} from "react";
 import Plot from 'react-plotly.js';
-import styled from "styled-components";
 import '../styles/screens/StrainSim.css';
+
+// constants for arduino port
+var SerialPort = require("serialport");
+
+const parsers = SerialPort.parsers;
+const parser = new parsers.Readline({
+  delimiter: '\r\n'
+});
+
+var port = new SerialPort('port',{
+  baudRate: 9600,
+  dataBits: 8,
+  parity: 'none',
+  stopBits: 1,
+  flowControl: false
+  });
+
+port.pipe(parser);
 
 // this is the main function of the code, the strain camera
 function StrainCamera() {
-
-    //const SerialPort = require('serialport');
-    //const Readline = require('serialport/parser-readline');
-
-    //const port = new SerialPort('/dev/ttyACM0', { baudRate: 9600 });
-    //const parser = port.pipe(new Readline({ delimiter: '\n' }));
 
     const [show,setShow] = useState(true);
     // define base variables. By default, they are null
@@ -33,15 +44,11 @@ function StrainCamera() {
             })
     }
 
+    // collect the current video camera display
     useEffect(() => {
         getVideo();
     }, [videoRef])
-    // this part of the code is to handle the strain plot button being clicked.
-    // in short, if the button is clicked, then we start displaying strain on the plot
 
-    const handleClick = () => {
-    // check for arduino input
-    }
     function PlotStrain(){
         return (
             <Plot
@@ -61,7 +68,11 @@ function StrainCamera() {
         )
     }
 
-
+     // handle socket
+     var socket = io();
+        socket.on('data', function(data) {
+            console.log(data);
+        });
 
     // now for the layout. We want the strain camera, the plot, and a toggle button
     return (
@@ -73,14 +84,23 @@ function StrainCamera() {
             <div className='plot_strain_div'>
                 <button onClick={()=>setShow(true)}>Start Plot</button>
                 <button onClick={()=>setShow(false)}>Stop Plot</button>
-
             </div>
         </div>
 
     );
-
-
-
 }
+
+
+var io = require('socket.io').listen(app);
+
+io.on('connection',function(socket){
+  console.log('node is listening to port');
+});
+
+parser.on('data', function(data){
+
+console.log(data);
+
+});
 
 export default StrainCamera;
