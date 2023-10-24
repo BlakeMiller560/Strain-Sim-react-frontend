@@ -1,25 +1,18 @@
 import React, {useRef, useEffect, useState} from "react";
 import Plot from 'react-plotly.js';
 import '../styles/screens/StrainSim.css';
-import {SerialPort} from "serialport";
-import {io} from  "socket.io"
+
+
 
 // constants for arduino port
 //const SerialPort = require("serialport");
-const parsers = SerialPort.parsers;
-const parser = new parsers.Readline({
-  delimiter: '\r\n'
-});
 
-const port = new SerialPort('port', {
-    baudRate: 9600,
-    dataBits: 8,
-    parity: 'none',
-    stopBits: 1,
-    flowControl: false
-});
+//const parsers = SerialPort.parsers;
+//const parser = new parsers.Readline({
+//  delimiter: '\r\n'
+//});
 
-port.pipe(parser);
+
 
 // this is the main function of the code, the strain camera
 function StrainCamera() {
@@ -71,10 +64,10 @@ function StrainCamera() {
     }
 
      // handle socket
-     let socket = io();
-        socket.on('data', function(data) {
-            console.log(data);
-        });
+     //let socket = io();
+       // socket.on('data', function(data) {
+         //   console.log(data);
+        //});
 
     // now for the layout. We want the strain camera, the plot, and a toggle button
     return (
@@ -95,14 +88,14 @@ function StrainCamera() {
 
 //let io = require('socket.io').listen(app);
 
-io.on('connection',function(socket){
-  console.log('node is listening to port');
-});
+//io.on('connection',function(socket){
+//  console.log('node is listening to port');
+//});
 
-parser.on('data', function(data){
+//parser.on('data', function(data){
 
-console.log(data);
+//console.log(data);
 
-});
+//});
 
 export default StrainCamera;
