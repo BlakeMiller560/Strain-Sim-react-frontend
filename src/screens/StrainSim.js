@@ -1,8 +1,12 @@
 import React, {useRef, useEffect, useState} from "react";
 import Plot from 'react-plotly.js';
 import '../styles/screens/StrainSim.css';
-
-
+/* commented out for now
+const express = require('express')
+const {spawn} = require('child_process');
+const app = express()
+const port = 3000
+*/
 
 // constants for arduino port
 //const SerialPort = require("serialport");
@@ -45,6 +49,15 @@ function StrainCamera() {
     }, [videoRef])
 
     function PlotStrain(){
+        /*commented out for now
+        const python = spawn('python', ['logger.py']);
+        python.stdout.on('data', function (data){
+            console.log('data from python script');
+        });
+        python.on('close',(code) => {
+            console.log(`child process close all stdio with code ${code}`);
+        });
+        */
         return (
             <Plot
                     // create plot
