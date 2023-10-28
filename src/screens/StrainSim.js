@@ -1,12 +1,45 @@
 import React, {useRef, useEffect, useState} from "react";
 import Plot from 'react-plotly.js';
 import '../styles/screens/StrainSim.css';
-/* commented out for now
-const express = require('express')
-const {spawn} = require('child_process');
-const app = express()
-const port = 3000
-*/
+import'./logger.py'
+import Papa from "papaparse"
+import { useCSVReader } from 'react-papaparse';
+import testData from './testData.csv'
+import {Bar} from 'react-chartjs-2'
+import {Line} from 'react-chartjs-2'
+import 'chart.js/auto'
+import {
+    Chart as ChartJs,
+    CategoryScale,
+    LinearScale,
+    LineElement,
+    BarElement,
+    PointElement,
+    Title,
+    Tooltip,
+    Legend,
+} from 'chart.js';
+
+
+ChartJs.register(
+    CategoryScale, // x axis
+    LinearScale, // y axis
+    LineElement,
+    PointElement,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+)
+
+//const { exec, spawn } = require('node:child_process');
+
+// commented out for now
+//const express = require('express')
+//const {spawn} = require('child_process');
+//const app = express()
+//const port = 3000
+//
 
 // constants for arduino port
 //const SerialPort = require("serialport");
@@ -20,6 +53,10 @@ const port = 3000
 
 // this is the main function of the code, the strain camera
 function StrainCamera() {
+    const [chartData,setChartData] = useState({
+        datasets: []
+    });
+    const [chartOptions, setChartOptions] = useState({})
 
 
     const [show,setShow] = useState(true);
@@ -47,6 +84,44 @@ function StrainCamera() {
     useEffect(() => {
         getVideo();
     }, [videoRef])
+
+     useEffect(()=>{
+        Papa.parse(testData,{
+            download:true,
+            header: true,
+            dynamicTyping: true,
+            delimiter: ",",
+            complete: ((result) =>{
+                console.log(result)
+                setChartData({
+                    labels:result.data.map((item, index) =>[item["Time"]]).filter(String),
+                    datasets: [
+                        {
+                            label:"Strain",
+                            data: result.data.map((item, index) =>[item['Strain']]).filter(Number),
+                            borderColor: "black",
+                            backgroundColor: "red",
+                            yaxisID: 'y'
+                        }
+                    ]
+                });
+                setChartOptions({
+                    //responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        },
+                        title:{
+                            display:true,
+                            text:"Test data"
+                        },
+                    }
+                })
+            })
+
+        })
+    }, [])
+
 
     function PlotStrain(){
         /*commented out for now
@@ -87,7 +162,7 @@ function StrainCamera() {
         <div className='strain_camera'>
             <div className='camera' style={{ display: "flex" }}>
                 <video className='video_output' ref={videoRef}> </video>
-                {show ?<h1><PlotStrain/> </h1>:null}
+                {show ?<h1><Bar options={chartOptions} data={chartData} /> </h1>:null}
             </div>
             <div className='plot_strain_div'>
                 <button onClick={()=>setShow(true)}>Start Plot</button>
@@ -98,7 +173,7 @@ function StrainCamera() {
     );
 }
 
-
+// {show ?<h1><PlotStrain/> </h1>:null}
 //let io = require('socket.io').listen(app);
 
 //io.on('connection',function(socket){
