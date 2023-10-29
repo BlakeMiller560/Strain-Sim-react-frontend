@@ -5,7 +5,8 @@ import'./logger.py'
 import Papa from "papaparse"
 import { useCSVReader } from 'react-papaparse';
 import testData from './testData.csv'
-import {Bar} from 'react-chartjs-2'
+import testData2 from './data.csv'
+import { Bar } from 'react-chartjs-2'
 import {Line} from 'react-chartjs-2'
 import 'chart.js/auto'
 import {
@@ -86,7 +87,7 @@ function StrainCamera() {
     }, [videoRef])
 
      useEffect(()=>{
-        Papa.parse(testData,{
+        Papa.parse(testData2,{
             download:true,
             header: true,
             dynamicTyping: true,
