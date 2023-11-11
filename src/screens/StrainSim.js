@@ -181,12 +181,16 @@ function StrainCamera() {
         <div className='strain_camera'>
             <div className='camera' style={{ display: "flex" }}>
                 <video className='video_output' ref={videoRef}> </video>
-                <Bar className='small_plot' options={chartOptions} data={chartData} style={{display:"flex"}}/>
-                {show ?<h1><Bar className='total_plot' options={chartOptionsTotal} data={chartDataTotal} style={{display:"flex"}}/> </h1>:null}
+                <div>
+                    <Bar className='small_plot' options={chartOptions} data={chartData} style={{display:"flex"}}/>
+                    {show ?<Bar className='total_plot' options={chartOptionsTotal} data={chartDataTotal} style={{display:"flex"}}/>:null}
+                </div>
             </div>
             <div className='button_div'>
-                <button onClick={()=>setShow(true)}>Start Plot</button>
-                <button onClick={()=>setShow(false)}>Stop Plot</button>
+                <div className='button-container'>
+                    <button onClick={()=>setShow(true)}>Start Plot</button>
+                    <button onClick={()=>setShow(false)}>Stop Plot</button>
+                </div>
             </div>
         </div>
 

@@ -85,16 +85,33 @@
 }
 
 video{
-  width: 175%;
+  width: 163%;
   max-width: 175%;
   height: auto;
 }
 
-button{
-
+.small_plot{
+  width: 500px;
+  height: 500px;
+}
+.total_plot{
+  width: 500px;
+  height: 500px;
 }
 
+button{
+  text-align: center;
 
+}
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+.button-container button {
+  padding: 10px 20px; /* Adjust padding to increase button size */
+  font-size: 16px; /* Modify font size */
+  /* Add any other styles you'd like */
+}
 
 
 
