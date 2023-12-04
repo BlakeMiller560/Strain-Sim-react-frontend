@@ -45,7 +45,7 @@ import { DocProfile } from './screens/DoctorPanel/DoctorProfile';
 import { DoctorMessages } from './screens/DoctorPanel/DoctorMessages';
 import { DoctorServices } from './screens/DoctorPanel/DoctorServices';
 import DoctorHelp from './screens/DoctorPanel/DoctorHelp';
-import StrainSim from './screens/StrainSim';
+import strainSim from './screens/StrainSim';
 import HeartStroke from './screens/HeartStroke';
 import PsychologyPrediction from './screens/PsychologyPrediction';
 import Tasks from './screens/Tasks';

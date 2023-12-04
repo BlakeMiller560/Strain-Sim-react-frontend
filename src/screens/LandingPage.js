@@ -14,7 +14,7 @@ const LandingPage = () => {
        <a href="/webform">Surgery Feedback Form</a><br></br><br></br>
        <a href="/HealthcareModels">Hub</a><br></br><br></br>
        <a href="/VoiceRecoginition">VoiceRecoginition</a><br></br><br></br>
-       <a href="StrainSim">StrainSim</a><br></br><br></br>
+       <a href="/StrainSim">StrainSim</a><br></br><br></br>
        <a href="/serviceshomepage">ServicesHomePage</a><br></br><br></br>
       {/*<h1>Welcome to Smart Digital Medicine</h1>
         <p>Your Health, Our Priority</p>*/} 
