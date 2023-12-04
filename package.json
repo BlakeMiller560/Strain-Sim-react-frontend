@@ -16,6 +16,7 @@
     "annyang": "^2.6.1",
     "antd": "^5.11.5",
     "axios": "^1.4.0",
+    "child_process": "^1.0.2",
     "cors-anywhere": "^0.4.4",
     "font-awesome": "^4.7.0",
     "livereload-js": "^4.0.1",

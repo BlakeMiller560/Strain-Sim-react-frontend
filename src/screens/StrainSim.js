@@ -1,5 +1,6 @@
 import React, {useRef, useEffect, useState} from "react";
 import Plot from 'react-plotly.js';
+import axios from "axios";
 import '../styles/screens/StrainSim.css';
 import'./logger.py'
 import Papa from "papaparse"
@@ -67,6 +68,25 @@ function StrainCamera() {
                 console.error(err);
             })
     }
+
+    useEffect(() => {
+        const child = exec("python logger.py", (error, stdout, stderr) => {
+            if (error) {
+                console.error(`Error executing logger.py: ${error.message}`);
+                return;
+            }
+            if (stderr) {
+                console.error(`Error output from logger.py: ${stderr}`);
+                return;
+            }
+            console.log(`Output from logger.py: ${stdout}`);
+        });
+
+        // Cleanup the child process when the component unmounts
+        return () => {
+            child.kill();
+        };
+    }, []);
 
     // collect the current video camera display
     useEffect(() => {
@@ -173,8 +193,7 @@ function StrainCamera() {
         })
     }, [])
 
-
-
+    console.log("message")
 
     // now for the layout. We want the strain camera, the plot, and a toggle button
     return (
