@@ -45,7 +45,7 @@ import { DocProfile } from './screens/DoctorPanel/DoctorProfile';
 import { DoctorMessages } from './screens/DoctorPanel/DoctorMessages';
 import { DoctorServices } from './screens/DoctorPanel/DoctorServices';
 import DoctorHelp from './screens/DoctorPanel/DoctorHelp';
-import strainSim from './screens/StrainSim';
+import StrainSim from './screens/StrainSim';
 import HeartStroke from './screens/HeartStroke';
 import PsychologyPrediction from './screens/PsychologyPrediction';
 import Tasks from './screens/Tasks';
@@ -202,7 +202,7 @@ class App extends Component {
           <Route path="/Searchresult" element={<Searchresult />} />
           <Route path="/DoctorVideo" element={< DoctorVideo />} />
           <Route path="/DBConnection" element={<DBConnection />} />
-          <Route path="/strainSim" element={<strainSim />} />
+          <Route path="/StrainSim" element={<StrainSim />} />
           <Route path="/testimonial" element={<TestimonialsPage />} /> {/* Use TestimonialsPage */}
           <Route path="/contact" element={<Contact />} />
           <Route path="/Admin" element={<AdminLayout adminInfo={this.state.user} />}>
