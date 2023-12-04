@@ -1,6 +1,5 @@
 import React, {useRef, useEffect, useState} from "react";
 import Plot from 'react-plotly.js';
-import axios from "axios";
 import '../styles/screens/StrainSim.css';
 import'./logger.py'
 import Papa from "papaparse"
@@ -37,6 +36,7 @@ ChartJs.register(
 
 // this is the main function of the code, the strain camera
 function StrainCamera() {
+    const location = useLocation();
     const [chartData,setChartData] = useState({
         datasets: []
     });
@@ -70,7 +70,7 @@ function StrainCamera() {
     }
 
     useEffect(() => {
-        const child = exec("python logger.py", (error, stdout, stderr) => {
+        const child = exec("python loggerNew.py", (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error executing logger.py: ${error.message}`);
                 return;
