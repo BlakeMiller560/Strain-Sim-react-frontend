@@ -1,12 +1,12 @@
 import React, {useRef, useEffect, useState} from "react";
 import Plot from 'react-plotly.js';
 import '../styles/screens/StrainSim.css';
-import'./logger.py'
+import'./LoggerNew.py'
 import Papa from "papaparse"
 import { useCSVReader } from 'react-papaparse';
-import testData from './testData.csv'
-import testData2 from './data.csv'
-import totalData from './total_data.csv'
+//import testData from './testData.csv'
+//import testData2 from './data.csv'
+//import totalData from './total_data.csv'
 import { Bar } from 'react-chartjs-2'
 import {Line} from 'react-chartjs-2'
 import 'chart.js/auto'
@@ -36,7 +36,6 @@ ChartJs.register(
 
 // this is the main function of the code, the strain camera
 function StrainCamera() {
-    const location = useLocation();
     const [chartData,setChartData] = useState({
         datasets: []
     });
@@ -68,7 +67,7 @@ function StrainCamera() {
                 console.error(err);
             })
     }
-
+/*
     useEffect(() => {
         const child = exec("python loggerNew.py", (error, stdout, stderr) => {
             if (error) {
@@ -87,6 +86,7 @@ function StrainCamera() {
             child.kill();
         };
     }, []);
+    */
 
     // collect the current video camera display
     useEffect(() => {
