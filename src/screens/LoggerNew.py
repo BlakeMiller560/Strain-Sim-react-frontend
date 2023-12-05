@@ -24,7 +24,7 @@ DF_total = np.zeros(S_total)
 
 folder_path = './src/screens/'
 
-csv_file_path = os.path.join(folder_path, 'data.csv')
+csv_file_path = os.path.join(folder_path, 'total_data.csv')
 with open(csv_file_path, 'w', newline='') as csv_file:
     csv_writer = csv.writer(csv_file)
     
@@ -46,6 +46,7 @@ with open(csv_file_path, 'w', newline='') as csv_file:
 
             # Append values to the current data storage array
             DF = np.vstack([DF, values])
+            DF.to_csv('data')
             
             # Write values to CSV file
             csv_writer.writerows(DF)

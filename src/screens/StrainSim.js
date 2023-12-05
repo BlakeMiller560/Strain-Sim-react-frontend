@@ -132,7 +132,7 @@ function StrainCamera() {
             complete: ((result_total) =>{
                 console.log(result_total)
                 // set test value
-                let strainValue = result_total.data.map((item, index) =>[item['Status']]).filter(Number)
+                let strainValue = result_total.data.map((item, index) =>[item['Strain_pin05']]).filter(Number)
                 var colors = []
                 for(var i = 0; i < strainValue.length; i++){
                    var color;
@@ -147,8 +147,8 @@ function StrainCamera() {
                     labels:result_total.data.map((item, index) =>[item["time"]]).filter(String),
                     datasets: [
                         {
-                            label:"Status",
-                            data: result_total.data.map((item, index) =>[item['Status']]).filter(Number),
+                            label:"Strain",
+                            data: result_total.data.map((item, index) =>[item['Strain_pin05']]).filter(Number),
                             borderColor: "black",
                             backgroundColor: colors,
                             yaxisID: 'y'
