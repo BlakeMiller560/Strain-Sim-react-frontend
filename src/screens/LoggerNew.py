@@ -15,7 +15,7 @@ i = 0
 total_count = 0
 maxTime = 100  # seconds
 # Array sizes for current and total data storage
-S = (1, len(cols))
+S = (0, len(cols))
 S_total = (maxTime, len(cols))
 # base storage array, gets rewrote every 10 seconds
 DF = np.zeros(S)
