@@ -9,7 +9,7 @@ ser = serial.Serial(port='/dev/cu.usbmodem141101', baudrate=9600)
 # set the start time
 start = time.time()
 # set time to stop reading in data
-Cols = ["Time", "Strain"]
+Cols = ["Time", "Strain_pin01", "Strain_pin05", "Status"]
 i = 0
 total_count = 0
 maxTime = 360  # seconds
@@ -24,17 +24,28 @@ file = open('data.txt', 'w')
 
 while (time.time() - start) < maxTime:
     # now read in the data
-    d = ser.readline().decode('utf-8')
-    comma_str = ','
-    commaLoc = d.find(comma_str)
+    str = ser.readline().decode('utf-8').split(',')
+    # comma_str = ','
+    # commaLoc = d.find(comma_str)
     # print(i)
     # print(commaLoc)
+    
+    '''
     data1 = int(d[0:commaLoc])
     data2 = int(d[commaLoc + 1:-2])
-
+    data3 = int(d[])
+    data4 = 
+    
     # np.append(DF,[data1,data2],axis=0)
     DF[i][0] = data1
     DF[i][1] = data2
+    DF[i][2] = data3
+    DF[i][3] = data4
+    '''    
+    DF[i][0] = int(str[0])
+    DF[i][1] = int(str[1])
+    DF[i][2] = int(str[2])
+    DF[i][3] = str[3]
 
     print(DF)
     if i % 9 == 0:

@@ -22,12 +22,12 @@ void loop()
 {  
   pin01 = analogRead(SENSOR_PIN01);
   pin05 = analogRead(SENSOR_PIN05);
-  Serial.print("Sensor_A0: ");
-  Serial.println(pin01);
-  Serial.print("Sensor_A5: ");
-  Serial.println(pin05);
-  if (pin01 > 50){
-   digitalWrite(12, HIGH); // Turn on the LED if the sensor value is greater than 50
+  //Serial.print("Sensor_A0: ");
+  //Serial.println(pin01);
+  //Serial.print("Sensor_A5: ");
+  //Serial.println(pin05);
+  if (pin05 > (700*0.95)){ //Offset to make sure its lower then already too strong
+   digitalWrite(12, HIGH); // Turn on the LED if the sensor value is greater than 700
    Serial.println(str(startTime-millis()) + "," + str(pin01) + "," + str(pin05) + ",HIGH");
   } else {
     digitalWrite(12, LOW); // Turn off the LED if the sensor value is less than or equal to 50
@@ -45,6 +45,6 @@ void loop()
     BTSerial.write(sendChar); // Send the received data to the Bluetooth module
     // You can add other functionalities or data processing here
   }
-  /* Wait 1 second and then read again */
-  delay(1000);
+  /* Wait 0.1 second and then read again */
+  delay(100);
 }
