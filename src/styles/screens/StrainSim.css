@@ -85,17 +85,18 @@
 }
 
 video{
-  width: 1000px;
+  width: 163%;
+  max-width: 175%;
   height: auto;
 }
 
 .small_plot{
   width: 500px;
-  height: auto;
+  height: 500px;
 }
 .total_plot{
   width: 500px;
-  height: auto;
+  height: 500px;
 }
 
 button{
