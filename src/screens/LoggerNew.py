@@ -1,3 +1,4 @@
+import os
 import serial
 import csv
 import pandas as pd
@@ -5,64 +6,63 @@ import numpy as np
 import time
 
 # Replace 'port' with the actual port your Arduino is connected to
-ser = serial.Serial(port='/dev/cu.usbmodem141101', baudrate=9600)
+ser = serial.Serial(port="COM3", baudrate=9600)
 # set the start time
 start = time.time()
 # set time to stop reading in data
-Cols = ["Time", "Strain_pin01", "Strain_pin05", "Status"]
+cols = ["time", "Strain_pin01", "Strain_pin05", "Status"]
 i = 0
 total_count = 0
-maxTime = 360  # seconds
-# array sizes for
-S = (10, 2)
-S_total = (maxTime, 2)
+maxTime = 100  # seconds
+# Array sizes for current and total data storage
+S = (1, len(cols))
+S_total = (maxTime, len(cols))
 # base storage array, gets rewrote every 10 seconds
 DF = np.zeros(S)
 # background whole storage
 DF_total = np.zeros(S_total)
-file = open('data.txt', 'w')
 
-while (time.time() - start) < maxTime:
-    # now read in the data
-    str = ser.readline().decode('utf-8').split(',')
-    # comma_str = ','
-    # commaLoc = d.find(comma_str)
-    # print(i)
-    # print(commaLoc)
+folder_path = './src/screens/'
+
+csv_file_path = os.path.join(folder_path, 'data.csv')
+with open(csv_file_path, 'w', newline='') as csv_file:
+    csv_writer = csv.writer(csv_file)
     
-    '''
-    data1 = int(d[0:commaLoc])
-    data2 = int(d[commaLoc + 1:-2])
-    data3 = int(d[])
-    data4 = 
-    
-    # np.append(DF,[data1,data2],axis=0)
-    DF[i][0] = data1
-    DF[i][1] = data2
-    DF[i][2] = data3
-    DF[i][3] = data4
-    '''    
-    DF[i][0] = int(str[0])
-    DF[i][1] = int(str[1])
-    DF[i][2] = int(str[2])
-    DF[i][3] = str[3]
+    # Write header to CSV file
+    csv_writer.writerow(cols)
 
-    print(DF)
-    if i % 9 == 0:
-        i = 0
-        # convert to int
-        DF2 = (np.rint(DF)).astype(int)
-        # add columns
-        DF3 = pd.DataFrame(DF2, columns=Cols).astype(int)
-        DF3.to_csv('data.csv')
-        # reset DF
-        DF = np.zeros(S)
+    while (time.time() - start) < maxTime:
+        # Now read in the data
+        d = ser.readline().decode('utf-8')
+        print(d)
+        data = d.split(',')
+        
+        try:
+            # Convert data to integers
+            values = list(map(int, data))
 
-    DF_total[total_count][0] = data1
-    DF_total[total_count][1] = data2
-    i = i + 1
-    total_count = total_count + 1
-# after the loop has finished
-DF_total2 = (np.rint(DF_total)).astype(int)
-DF_total3 = pd.DataFrame(DF_total2, columns=Cols).astype(int)
-DF_total3.to_csv('total_data.csv')
+            # Print the values (optional)
+            print(values)
+
+            # Append values to the current data storage array
+            DF = np.vstack([DF, values])
+            
+            # Write values to CSV file
+            csv_writer.writerows(DF)
+                    
+            # Reset the current data storage array
+            DF = np.zeros(S)
+
+            # Write values to CSV file
+            # csv_writer.writerow(values)
+
+        except ValueError as e:
+            # in case an data set inputted is not an number
+            print(f"Error converting values to integers: {e}")
+        except KeyboardInterrupt:
+            # to be able to overide the loop if participant finishes task before time limite
+            print("Data logging stopped.")
+            break
+
+# Close the serial port
+ser.close()

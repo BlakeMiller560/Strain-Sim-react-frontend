@@ -13,7 +13,7 @@ void setup()
   Serial.begin(9600);
   BTSerial.begin(9600);
   pinMode(12,OUTPUT);
-  Serial.print("time,pin01,pin05,Status");
+  //Serial.print("time,pin01,pin05,Status");
   startTime = millis();
 }
  
@@ -28,22 +28,10 @@ void loop()
   //Serial.println(pin05);
   if (pin05 > (700*0.95)){ //Offset to make sure its lower then already too strong
    digitalWrite(12, HIGH); // Turn on the LED if the sensor value is greater than 700
-   Serial.println(str(startTime-millis()) + "," + str(pin01) + "," + str(pin05) + ",HIGH");
+   Serial.println(str(millis()-startTime) + "," + str(pin01) + "," + str(pin05) + ",HIGH");
   } else {
     digitalWrite(12, LOW); // Turn off the LED if the sensor value is less than or equal to 50
-    Serial.println(str(startTime-millis()) + "," + str(pin01) + "," + str(pin05) + ",LOW");
-  }
-  /*we don't need to read from the bluetooth device just have to send
-  if (BTSerial.available()) { // Check if data is available to read from Bluetooth
-    char receivedChar = BTSerial.read(); // Read the incoming data from Bluetooth
-    Serial.println(receivedChar); // Print the received data to the serial monitor
-    // Add your desired actions based on received data from Bluetooth
-  }
-  */
-  if (Serial.available() && BTSerial.available()) { // Check if data is available to read from the serial monitor and check if
-    char sendChar = Serial.read(); // Read the incoming data from the serial monitor
-    BTSerial.write(sendChar); // Send the received data to the Bluetooth module
-    // You can add other functionalities or data processing here
+    Serial.println(str(millis()-startTime) + "," + str(pin01) + "," + str(pin05) + ",LOW");
   }
   /* Wait 0.1 second and then read again */
   delay(100);

@@ -1,14 +1,14 @@
 import React, {useRef, useEffect, useState} from "react";
-import Plot from 'react-plotly.js';
+//import Plot from 'react-plotly.js';
 import '../styles/screens/StrainSim.css';
 import'./LoggerNew.py'
 import Papa from "papaparse"
-import { useCSVReader } from 'react-papaparse';
+//import { useCSVReader } from 'react-papaparse';
 //import testData from './testData.csv'
-import testData2 from './testData2.csv'
+import testData2 from './data.csv'
 import totalData from './totalData.csv'
 import { Bar } from 'react-chartjs-2'
-import {Line} from 'react-chartjs-2'
+//import {Line} from 'react-chartjs-2'
 import 'chart.js/auto'
 import {
     Chart as ChartJs,
@@ -47,11 +47,11 @@ function StrainCamera() {
     const [chartOptionsTotal, setChartOptionsTotal] = useState({})
 
     const [show,setShow] = useState(true);
-    const [showTotalPlot,setShowTotalPlot] = useState(true);
+    //const [showTotalPlot,setShowTotalPlot] = useState(true);
     // define base variables. By default, they are null
     const videoRef = useRef(null);
-    const photoRef = useRef(null);
-    const [hasPhoto, setHasPhoto] = useState(false);
+    //const photoRef = useRef(null);
+    //const [hasPhoto, setHasPhoto] = useState(false);
 
     // setting the default video that we want. Default is a 1080P webcam display
     const getVideo = () => {
@@ -82,11 +82,11 @@ function StrainCamera() {
             complete: ((result) =>{
                 console.log(result)
                 // set test value
-                let strainValue = result.data.map((item, index) =>[item['Strain']]).filter(Number)
+                let strainValue = result.data.map((item, index) =>[item['Strain_pin05']]).filter(Number)
                 var colors = []
                 for(var i = 0; i < strainValue.length; i++){
                    var color;
-                   if(strainValue[i] < 600) {
+                   if(strainValue[i] < (700*0.95)) {
                        color = "blue";
                    }else{
                        color = "red";
@@ -94,11 +94,11 @@ function StrainCamera() {
                    colors[i] = color;
                    }
                 setChartData({
-                    labels:result.data.map((item, index) =>[item["Time"]]).filter(String),
+                    labels:result.data.map((item, index) =>[item["time"]]).filter(String),
                     datasets: [
                         {
                             label:"Strain",
-                            data: result.data.map((item, index) =>[item['Strain']]).filter(Number),
+                            data: result.data.map((item, index) =>[item['Strain_pin05']]).filter(Number),
                             borderColor: "black",
                             backgroundColor: colors,
                             yaxisID: 'y'
@@ -113,7 +113,7 @@ function StrainCamera() {
                         },
                         title:{
                             display:true,
-                            text:"Test data"
+                            text:"Strain vs Time"
                         },
                     }
                 })
@@ -124,7 +124,7 @@ function StrainCamera() {
 
     // parse instant strain data
      useEffect(()=>{
-        Papa.parse(totalData,{
+        Papa.parse(testData2,{
             download:true,
             header: true,
             dynamicTyping: true,
@@ -132,7 +132,7 @@ function StrainCamera() {
             complete: ((result_total) =>{
                 console.log(result_total)
                 // set test value
-                let strainValue = result_total.data.map((item, index) =>[item['Strain']]).filter(Number)
+                let strainValue = result_total.data.map((item, index) =>[item['Status']]).filter(Number)
                 var colors = []
                 for(var i = 0; i < strainValue.length; i++){
                    var color;
@@ -144,11 +144,11 @@ function StrainCamera() {
                    colors[i] = color;
                    }
                 setChartDataTotal({
-                    labels:result_total.data.map((item, index) =>[item["Time"]]).filter(String),
+                    labels:result_total.data.map((item, index) =>[item["time"]]).filter(String),
                     datasets: [
                         {
-                            label:"Strain",
-                            data: result_total.data.map((item, index) =>[item['Strain']]).filter(Number),
+                            label:"Status",
+                            data: result_total.data.map((item, index) =>[item['Status']]).filter(Number),
                             borderColor: "black",
                             backgroundColor: colors,
                             yaxisID: 'y'
@@ -163,7 +163,7 @@ function StrainCamera() {
                         },
                         title:{
                             display:true,
-                            text:"Test data"
+                            text:"Status vs Time"
                         },
                     }
                 })
