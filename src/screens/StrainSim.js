@@ -5,8 +5,8 @@ import'./LoggerNew.py'
 import Papa from "papaparse"
 import { useCSVReader } from 'react-papaparse';
 //import testData from './testData.csv'
-//import testData2 from './data.csv'
-//import totalData from './total_data.csv'
+import testData2 from './testData2.csv'
+import totalData from './totalData.csv'
 import { Bar } from 'react-chartjs-2'
 import {Line} from 'react-chartjs-2'
 import 'chart.js/auto'
@@ -67,27 +67,6 @@ function StrainCamera() {
                 console.error(err);
             })
     }
-/*
-    useEffect(() => {
-        const child = exec("python loggerNew.py", (error, stdout, stderr) => {
-            if (error) {
-                console.error(`Error executing logger.py: ${error.message}`);
-                return;
-            }
-            if (stderr) {
-                console.error(`Error output from logger.py: ${stderr}`);
-                return;
-            }
-            console.log(`Output from logger.py: ${stdout}`);
-        });
-
-        // Cleanup the child process when the component unmounts
-        return () => {
-            child.kill();
-        };
-    }, []);
-    */
-
     // collect the current video camera display
     useEffect(() => {
         getVideo();
