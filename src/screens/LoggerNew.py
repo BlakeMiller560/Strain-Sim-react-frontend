@@ -16,7 +16,7 @@ def remove_duplicate_zero_rows(arr):
     return np.array(non_zero_rows)
 
 # Replace 'port' with the actual port your Arduino is connected to
-ser = serial.Serial(port="COM3", baudrate=9600)
+ser = serial.Serial(port="COM6", baudrate=9600)
 # set the start time
 start = time.time()
 # set time to stop reading in data
