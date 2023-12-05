@@ -6,7 +6,7 @@ import Papa from "papaparse"
 //import { useCSVReader } from 'react-papaparse';
 //import testData from './testData.csv'
 import testData2 from './data.csv'
-import totalData from './totalData.csv'
+import totalData from './total_data.csv'
 import { Bar } from 'react-chartjs-2'
 //import {Line} from 'react-chartjs-2'
 import 'chart.js/auto'
@@ -113,7 +113,7 @@ function StrainCamera() {
                         },
                         title:{
                             display:true,
-                            text:"Strain vs Time"
+                            text:"Test Data"
                         },
                     }
                 })
@@ -124,7 +124,7 @@ function StrainCamera() {
 
     // parse instant strain data
      useEffect(()=>{
-        Papa.parse(testData2,{
+        Papa.parse(totalData,{
             download:true,
             header: true,
             dynamicTyping: true,
@@ -163,7 +163,7 @@ function StrainCamera() {
                         },
                         title:{
                             display:true,
-                            text:"Status vs Time"
+                            text:"Test Data"
                         },
                     }
                 })

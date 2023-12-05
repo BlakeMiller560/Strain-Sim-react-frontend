@@ -13,7 +13,7 @@ start = time.time()
 cols = ["time", "Strain_pin01", "Strain_pin05", "Status"]
 i = 0
 total_count = 0
-maxTime = 100  # seconds
+maxTime = 360  # seconds
 # Array sizes for current and total data storage
 S = (0, len(cols))
 S_total = (maxTime, len(cols))
@@ -24,46 +24,51 @@ DF_total = np.zeros(S_total)
 
 folder_path = './src/screens/'
 
-csv_file_path = os.path.join(folder_path, 'total_data.csv')
-with open(csv_file_path, 'w', newline='') as csv_file:
-    csv_writer = csv.writer(csv_file)
-    
-    # Write header to CSV file
-    csv_writer.writerow(cols)
+csv_file_path = os.path.join(folder_path, 'data.csv')
+total_csv_file_path = os.path.join(folder_path, 'total_data.csv')
 
-    while (time.time() - start) < maxTime:
-        # Now read in the data
-        d = ser.readline().decode('utf-8')
-        print(d)
-        data = d.split(',')
-        
-        try:
-            # Convert data to integers
-            values = list(map(int, data))
+# Check if 'total_data.csv' exists, and create it with the header if not
+if not os.path.isfile(total_csv_file_path):
+    with open(total_csv_file_path, 'w', newline='') as total_csv_file:
+        total_csv_writer = csv.writer(total_csv_file)
+        total_csv_writer.writerow(cols)
 
-            # Print the values (optional)
-            print(values)
+while (time.time() - start) < maxTime:
+    # Now read in the data
+    d = ser.readline().decode('utf-8')
+    print(d)
+    data = d.split(',')
 
-            # Append values to the current data storage array
-            DF = np.vstack([DF, values])
-            DF.to_csv('data')
-            
-            # Write values to CSV file
-            csv_writer.writerows(DF)
-                    
-            # Reset the current data storage array
-            DF = np.zeros(S)
+    try:
+        # Convert data to integers
+        values = list(map(int, data))
 
-            # Write values to CSV file
-            # csv_writer.writerow(values)
+        # Print the values (optional)
+        print(values)
 
-        except ValueError as e:
-            # in case an data set inputted is not an number
-            print(f"Error converting values to integers: {e}")
-        except KeyboardInterrupt:
-            # to be able to overide the loop if participant finishes task before time limite
-            print("Data logging stopped.")
-            break
+        # Append values to the current data storage array
+        DF = np.vstack([DF, values])
+
+        # Write values to 'data.csv' file which updates the graph continuously
+        with open(csv_file_path, 'a', newline='') as csv_file:
+            csv_writer = csv.writer(csv_file)
+            csv_writer.writerows([values])
+
+        # Append values to the total data storage array
+        DF_total = np.vstack([DF_total, values])
+
+    except ValueError as e:
+        # in case a data set inputted is not a number
+        print(f"Error converting values to integers: {e}")
+    except KeyboardInterrupt:
+        # to be able to override the loop if the participant finishes the task before the time limit
+        print("Data logging stopped.")
+        break
+
+# Write all values to 'total_data.csv' file
+with open(total_csv_file_path, 'a', newline='') as total_csv_file:
+    total_csv_writer = csv.writer(total_csv_file)
+    total_csv_writer.writerows(DF_total)
 
 # Close the serial port
 ser.close()
