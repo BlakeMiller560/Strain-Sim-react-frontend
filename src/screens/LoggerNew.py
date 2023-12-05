@@ -13,7 +13,9 @@ start = time.time()
 cols = ["time", "Strain_pin01", "Strain_pin05", "Status"]
 i = 0
 total_count = 0
-maxTime = 360  # seconds
+set_count = 0
+reset_interval = 10  # sets
+maxTime = 120  # seconds
 # Array sizes for current and total data storage
 S = (0, len(cols))
 S_total = (maxTime, len(cols))
@@ -56,6 +58,13 @@ while (time.time() - start) < maxTime:
 
         # Append values to the total data storage array
         DF_total = np.vstack([DF_total, values])
+        
+        set_count += 1
+        
+        if set_count >= reset_interval:
+            # Reset the set count and close the 'data.csv' file
+            set_count = 0
+            DF = np.zeros(S)
 
     except ValueError as e:
         # in case a data set inputted is not a number
