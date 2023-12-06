@@ -1,3 +1,13 @@
+'''
+Author: Blake Miller and Zachary Flahaut
+Date: 2023-12-05
+Description: Data logging script with Arduino communication. Reads data from a serial port, processes it, and stores
+             it in two CSV files ('data.csv' for current data, 'total_data.csv' for cumulative data). The script runs
+             for a specified time, resets the current data file at regular intervals, and removes duplicate zero rows
+             from the cumulative data.
+
+'''
+
 import os
 import serial
 import csv
